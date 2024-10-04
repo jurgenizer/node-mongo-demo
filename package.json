@@ -21,6 +21,6 @@
   },
   "homepage": "https://github.com/jurgenizer/node-mongo-demo#readme",
   "dependencies": {
-    "mongoose": "^5.0.1"
+    "mongoose": "^5.13.22"
   }
 }

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/playground')
+mongoose.connect('mongodb://localhost/playground' , {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true })
     .then(() => console.log('Connected to MongoDb...'))
     .catch(err => console.error('Could not connect to MongoDB', err))
 
@@ -15,10 +15,20 @@ const courseSchema = new mongoose.Schema({
 // Compile schema into a model
 // PascalCase to name our classes, e.g., Course
 const Course = mongoose.model('Course', courseSchema);
-// camelCase to name our obbjects, e.g., course
+
+
+async function createCourse() {
+    // camelCase to name our obbjects, e.g., course
 const course = new Course({
-    name: 'Node.js Course',
+    name: 'JavaScript Course',
     author: 'Jurgen',
-    tags: ['node', 'backend'],
+    tags: ['JavaScript', 'beginner'],
     isPublished: true
-})
+});
+
+const result = await course.save();
+console.log(result);
+}
+
+createCourse();
+
