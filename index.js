@@ -45,8 +45,14 @@ async function getCourses() {
     // or
     // and
 
+    const pageNumber = 2;
+    const pageSize = 10;
+
+    // /api/courses?pageNumber=2&pageSize=10;
+
     const courses = await Course
          .find({author: 'Jurgen', isPublished: true})
+         .skip((pageNumber-1) * pageSize)
         // .find({price: {$gte: 10, $lte: 20}})
         // .find({ price: { $in: [10, 15, 20] } })
         //.find({author: /^Jur/}) // Regex for starts with Jur
@@ -54,10 +60,10 @@ async function getCourses() {
         //.find({author: /Geitner$/i}) // Regex for ends with Geitner (case-insensitive)
         //.find({author: /.*Jurgen.*/}) // Regex for contains word Jurgen 
         // .or([{author: 'Jurgen'},{isPublished: true}])
-        .limit(10)
+        .limit(pageSize)
         .sort({ name: 1 })
         //.select({ name: 1, tags: 1 });
-        .countDocuments();
+        //.countDocuments();
 
     console.log(courses);
 }
