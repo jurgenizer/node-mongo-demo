@@ -46,20 +46,18 @@ async function getCourses() {
     // and
 
     const courses = await Course
-        // .find({author: 'Jurgen', isPublished: true})
+         .find({author: 'Jurgen', isPublished: true})
         // .find({price: {$gte: 10, $lte: 20}})
         // .find({ price: { $in: [10, 15, 20] } })
-
         //.find({author: /^Jur/}) // Regex for starts with Jur
         //.find({author: /Geitner$/}) // Regex for ends with Geitner (case-sensitive)
-        .find({author: /Geitner$/i}) // Regex for ends with Geitner (case-insensitive)
-        .find({author: /.*Jurgen.*/}) // Regex for contains word Jurgen 
-
-
+        //.find({author: /Geitner$/i}) // Regex for ends with Geitner (case-insensitive)
+        //.find({author: /.*Jurgen.*/}) // Regex for contains word Jurgen 
         // .or([{author: 'Jurgen'},{isPublished: true}])
-        .limit(2)
+        .limit(10)
         .sort({ name: 1 })
-        .select({ name: 1, tags: 1 });
+        //.select({ name: 1, tags: 1 });
+        .countDocuments();
 
     console.log(courses);
 }
