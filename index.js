@@ -31,30 +31,19 @@ async function createCourse() {
 }
 
 async function updateCourse(id) {
-    // Approach: Query first
-    // findById()
-    // Modify its properties
-    // save()
-
-    const course = await Course.findById(id);
-    if (!course) return;
-
-    course.isPublished = true;
-    course.author = 'another author';
-    const result = await course.save();
-    console.log(result);
-
-    /*  //or
-       course.set({
-        isPublished: true,
-        author: 'another author'
-       });
-     */
-
     // Approach: Update first
     // Update directly
     // Optionally get the updated document
+    const result = await Course.updateOne({ _id: id }, {
+        $set: {
+            author: 'Onelove',
+            isPublished: false
+        }
+    });
+    console.log(result);
 }
+
+updateCourse('66ffff324a022b14c77266b9');
 
 async function getCourses() {
     // Comparison operators:
@@ -86,7 +75,7 @@ async function getCourses() {
         //.find({author: /Geitner$/i}) // Regex for ends with Geitner (case-insensitive)
         //.find({author: /.*Jurgen.*/}) // Regex for contains word Jurgen 
         // .or([{author: 'Jurgen'},{isPublished: true}])
-       // .limit(pageSize)
+        // .limit(pageSize)
         .sort({ name: 1 })
     //.select({ name: 1, tags: 1 });
     //.countDocuments();
@@ -98,4 +87,3 @@ async function getCourses() {
 
 //getCourses();
 
-updateCourse('66ffff324a022b14c77266b9');
