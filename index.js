@@ -30,6 +30,32 @@ async function createCourse() {
     console.log(result);
 }
 
+async function updateCourse(id) {
+    // Approach: Query first
+    // findById()
+    // Modify its properties
+    // save()
+
+    const course = await Course.findById(id);
+    if (!course) return;
+
+    course.isPublished = true;
+    course.author = 'another author';
+    const result = await course.save();
+    console.log(result);
+
+    /*  //or
+       course.set({
+        isPublished: true,
+        author: 'another author'
+       });
+     */
+
+    // Approach: Update first
+    // Update directly
+    // Optionally get the updated document
+}
+
 async function getCourses() {
     // Comparison operators:
     // eq (equal)
@@ -51,8 +77,8 @@ async function getCourses() {
     // /api/courses?pageNumber=2&pageSize=10;
 
     const courses = await Course
-         .find({author: 'Jurgen', isPublished: true})
-         .skip((pageNumber-1) * pageSize)
+        .find({ author: 'Mosh', isPublished: true })
+        // .skip((pageNumber - 1) * pageSize)
         // .find({price: {$gte: 10, $lte: 20}})
         // .find({ price: { $in: [10, 15, 20] } })
         //.find({author: /^Jur/}) // Regex for starts with Jur
@@ -60,15 +86,16 @@ async function getCourses() {
         //.find({author: /Geitner$/i}) // Regex for ends with Geitner (case-insensitive)
         //.find({author: /.*Jurgen.*/}) // Regex for contains word Jurgen 
         // .or([{author: 'Jurgen'},{isPublished: true}])
-        .limit(pageSize)
+       // .limit(pageSize)
         .sort({ name: 1 })
-        //.select({ name: 1, tags: 1 });
-        //.countDocuments();
+    //.select({ name: 1, tags: 1 });
+    //.countDocuments();
 
     console.log(courses);
 }
 
 //createCourse();
 
-getCourses();
+//getCourses();
 
+updateCourse('66ffff324a022b14c77266b9');
