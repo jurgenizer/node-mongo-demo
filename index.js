@@ -5,11 +5,28 @@ mongoose.connect('mongodb://localhost/playground', { useUnifiedTopology: true, u
     .catch(err => console.error('Could not connect to MongoDB', err))
 
 const courseSchema = new mongoose.Schema({
-    name: {type: String, required: true},
+    name: { type: String, 
+            required: true,
+            minlength: 5,
+            maxlength: 255,
+         },
+    category: {
+        type: String,
+        required: true,
+        enum: ['web', 'mobile', 'network']
+    },
     author: String,
     tags: [String],
     date: { type: Date, default: Date.now },
-    isPublished: Boolean
+    isPublished: Boolean,
+    price: {
+        type: Number,
+        required: function () {
+            return this.isPublished;
+        },
+        min: 5,
+        max: 100
+    }
 });
 
 // Compile schema into a model
@@ -20,18 +37,20 @@ const Course = mongoose.model('Course', courseSchema);
 async function createCourse() {
     // camelCase to name our obbjects, e.g., course
     const course = new Course({
-       // name: 'The JavaScript Good Bits Course',
+        name: 'The JavaScript Good Bits Course',
+        category: 'web',
         author: 'Jurgen',
         tags: ['JavaScript', 'beginner'],
-        isPublished: true
+        isPublished: true,
+        price: 25
     });
 
     try {
         const result = await course.save();
         console.log(result);
-       
+
     }
-    catch(ex) {
+    catch (ex) {
         console.log(ex.message);
     }
 
@@ -53,8 +72,8 @@ async function updateCourse(id) {
 //updateCourse('66ffff324a022b14c77266b9');
 
 async function removeCourse(id) {
-const result = await Course.deleteOne({_id: id})
-console.log(result);
+    const result = await Course.deleteOne({ _id: id })
+    console.log(result);
 }
 
 //removeCourse('66ffff324a022b14c77266b9');
