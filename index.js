@@ -31,9 +31,6 @@ async function createCourse() {
 }
 
 async function updateCourse(id) {
-    // Approach: Update first
-    // Update directly
-    // Optionally get the updated document
     const result = await Course.updateOne({ _id: id }, {
         $set: {
             author: 'Onelove',
@@ -44,6 +41,13 @@ async function updateCourse(id) {
 }
 
 updateCourse('66ffff324a022b14c77266b9');
+
+async function removeCourse(id) {
+const result = await Course.deleteOne({_id: id})
+console.log(result);
+}
+
+removeCourse('66ffff324a022b14c77266b9');
 
 async function getCourses() {
     // Comparison operators:
