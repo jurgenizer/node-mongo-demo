@@ -5,7 +5,7 @@ mongoose.connect('mongodb://localhost/playground', { useUnifiedTopology: true, u
     .catch(err => console.error('Could not connect to MongoDB', err))
 
 const courseSchema = new mongoose.Schema({
-    name: String,
+    name: {type: String, required: true},
     author: String,
     tags: [String],
     date: { type: Date, default: Date.now },
@@ -20,15 +20,25 @@ const Course = mongoose.model('Course', courseSchema);
 async function createCourse() {
     // camelCase to name our obbjects, e.g., course
     const course = new Course({
-        name: 'JavaScript Course',
+       // name: 'The JavaScript Good Bits Course',
         author: 'Jurgen',
         tags: ['JavaScript', 'beginner'],
         isPublished: true
     });
 
-    const result = await course.save();
-    console.log(result);
+    try {
+        const result = await course.save();
+        console.log(result);
+       
+    }
+    catch(ex) {
+        console.log(ex.message);
+    }
+
+
 }
+
+createCourse();
 
 async function updateCourse(id) {
     const result = await Course.updateOne({ _id: id }, {
@@ -40,14 +50,14 @@ async function updateCourse(id) {
     console.log(result);
 }
 
-updateCourse('66ffff324a022b14c77266b9');
+//updateCourse('66ffff324a022b14c77266b9');
 
 async function removeCourse(id) {
 const result = await Course.deleteOne({_id: id})
 console.log(result);
 }
 
-removeCourse('66ffff324a022b14c77266b9');
+//removeCourse('66ffff324a022b14c77266b9');
 
 async function getCourses() {
     // Comparison operators:
@@ -87,7 +97,7 @@ async function getCourses() {
     console.log(courses);
 }
 
-//createCourse();
+
 
 //getCourses();
 
