@@ -5,18 +5,27 @@ mongoose.connect('mongodb://localhost/playground', { useUnifiedTopology: true, u
     .catch(err => console.error('Could not connect to MongoDB', err))
 
 const courseSchema = new mongoose.Schema({
-    name: { type: String, 
-            required: true,
-            minlength: 5,
-            maxlength: 255,
-         },
+    name: {
+        type: String,
+        required: true,
+        minlength: 5,
+        maxlength: 255,
+    },
     category: {
         type: String,
         required: true,
         enum: ['web', 'mobile', 'network']
     },
     author: String,
-    tags: [String],
+    tags: {
+        type: Array,
+        validate: {
+            validator: function(v) {
+                return v && v.length > 0;
+            }, 
+            message: 'A course should have at least one tag'
+        }
+    },
     date: { type: Date, default: Date.now },
     isPublished: Boolean,
     price: {
@@ -40,7 +49,7 @@ async function createCourse() {
         name: 'The JavaScript Good Bits Course',
         category: 'web',
         author: 'Jurgen',
-        tags: ['JavaScript', 'beginner'],
+        //tags: [],
         isPublished: true,
         price: 25
     });
