@@ -53,9 +53,9 @@ async function createCourse() {
     // camelCase to name our obbjects, e.g., course
     const course = new Course({
         name: 'The JavaScript Good Bits Course',
-        category: 'web',
+        category: '-',
         author: 'Jurgen',
-        //tags: [],
+        tags: [],
         isPublished: true,
         price: 25
     });
@@ -66,7 +66,10 @@ async function createCourse() {
 
     }
     catch (ex) {
-        console.log(ex.message);
+        // console.log(ex.message);
+        for (field in ex.errors) {
+            console.log(ex.errors[field].message);
+        }
     }
 
 
