@@ -14,7 +14,9 @@ const courseSchema = new mongoose.Schema({
     category: {
         type: String,
         required: true,
-        enum: ['web', 'mobile', 'network']
+        enum: ['web', 'mobile', 'network'],
+        lowercase: true,
+        trim: true
     },
     author: String,
     tags: {
@@ -40,7 +42,9 @@ const courseSchema = new mongoose.Schema({
             return this.isPublished;
         },
         min: 5,
-        max: 100
+        max: 100,
+        get: v => Math.round(v),
+        set: v => Math.round(v)
     }
 });
 
@@ -53,11 +57,11 @@ async function createCourse() {
     // camelCase to name our obbjects, e.g., course
     const course = new Course({
         name: 'The JavaScript Good Bits Course',
-        category: '-',
+        category: 'WEb',
         author: 'Jurgen',
-        tags: [],
+        tags: ['frontend'],
         isPublished: true,
-        price: 25
+        price: 25.8
     });
 
     try {
